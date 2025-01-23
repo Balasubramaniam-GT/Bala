@@ -13,6 +13,9 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - id: DownloadLTA
-      run: "& $env:GITHUB_ACTION_PATH/getLTA.ps1 -RunnerOs '${{runner.os}}'-License '${{inputs.License}}'"
-      shell: pwsh
+   - name: Run getLTA.ps1 script with license from secret
+  run: |
+    Set-ExecutionPolicy RemoteSigned -Scope Process -Force
+
+    # Use the GitHub secret to pass the license info
+    .\getLTA.ps1 -License "${{ secrets.LICENSE_KEY }}" -RunnerOs 'Windows'

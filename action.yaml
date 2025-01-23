@@ -1,21 +1,28 @@
-# action.yaml
-name: 'Get LemonTreeAutomation'
-description: 'This action downloads LieberLieber LemonTree.Automation for Sparx Systems Enterprise Architect on a build runner!'
-inputs:
-  License:
-    description: 'A string containing the license information'
-    required: false
-    default: ''
-outputs:
-  LemonTreeAutomationExecutable:
-    description: 'Path to the Executable'
-    value: "${{steps.DownloadLTA.outputs.LemonTreeAutomationExecutable}}"
-runs:
-  using: 'composite'
-  steps:
-   - name: Run getLTA.ps1 script with license from secret
-  run: |
-    Set-ExecutionPolicy RemoteSigned -Scope Process -Force
+name: Run getLTA.ps1
 
-    # Use the GitHub secret to pass the license info
-    .\getLTA.ps1 -License "${{ secrets.LICENSE_KEY }}" -RunnerOs 'Windows'
+on:
+  push:
+    branches:
+      - main  # You can specify other branches if needed
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-script:
+    runs-on: windows-latest  # Change to linux-latest for Linux runners or other OS if needed
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up PowerShell
+      uses: actions/setup-powershell@v2
+
+    - name: Run getLTA.ps1 script
+      run: |
+        # Ensure script execution policy is set to allow script running
+        Set-ExecutionPolicy RemoteSigned -Scope Process -Force
+
+        # Run the getLTA.ps1 script with parameters
+        .\getLTA.ps1 

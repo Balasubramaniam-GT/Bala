@@ -20,7 +20,7 @@ jobs:
           uses: LieberLieber/setup-LemonTree.Automation@v6
           id: GetLTA
           with:
-           License: ${{secrets.LTALICENSE}} 
+           License: ${{secrets.LICENSE_KEY}} 
            #ExeLocation &"${{steps.GetLTA.outputs.LemonTreeAutomationExecutable}}"
 
         # first simple use of LemonTree.Automation

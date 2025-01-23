@@ -1,16 +1,13 @@
-name: Run getLTA.ps1
+name: Test PowerShell Script
 
 on:
   push:
     branches:
-      - main  # You can specify other branches if needed
-  pull_request:
-    branches:
       - main
 
 jobs:
-  run-script:
-    runs-on: windows-latest  # Change to linux-latest for Linux runners or other OS if needed
+  test-script:
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -21,8 +18,5 @@ jobs:
 
     - name: Run getLTA.ps1 script
       run: |
-        # Ensure script execution policy is set to allow script running
         Set-ExecutionPolicy RemoteSigned -Scope Process -Force
-
-        # Run the getLTA.ps1 script with parameters
-        .\getLTA.ps1 
+        .\getLTA.ps1 -License "my-license-key" -RunnerOs "Windows"
